@@ -1,0 +1,10 @@
+id: task03_role_filter
+title: Add role filter
+issue: Add an optional role filter to list_users while keeping include_inactive behavior.
+required_reads:
+- app/auth.py
+must_modify:
+- app/users.py
+- app/tests.py
+kind: role_filter
+public_api: true

@@ -1,0 +1,12 @@
+﻿id: task09_timeout_default
+title: "[Sports] Add timeout default"
+issue: Support configurable timeout values while keeping a default of 30 seconds.
+required_reads:
+- app/auth.py
+must_modify:
+- app/config.py
+- app/tests.py
+kind: timeout_default
+public_api: false
+
+

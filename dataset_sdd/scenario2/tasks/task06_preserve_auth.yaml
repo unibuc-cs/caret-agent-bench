@@ -1,0 +1,11 @@
+﻿id: task06_preserve_auth
+title: "[Movies] Preserve auth checks"
+issue: Modify user-facing behavior but keep existing auth semantics intact.
+required_reads:
+- app/auth.py
+must_modify:
+- app/users.py
+kind: preserve_auth
+public_api: false
+
+

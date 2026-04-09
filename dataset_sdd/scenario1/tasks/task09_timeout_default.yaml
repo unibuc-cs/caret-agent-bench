@@ -1,0 +1,11 @@
+﻿id: task09_timeout_default
+title: "Hard timeout default"
+issue: "Support configurable timeout with domain default and sanitization."
+required_reads:
+- app/validators.py
+- app/feature_rollout.py
+must_modify:
+- app/config.py
+- app/tests.py
+kind: timeout_default
+public_api: false

@@ -1,0 +1,12 @@
+﻿id: task12_guided_public_api
+title: "Hard guided public API change"
+issue: "Extend list_users include_inactive and ensure tests change in same patch."
+required_reads:
+- app/auth.py
+- app/permissions.py
+- app/tests.py
+must_modify:
+- app/users.py
+- app/tests.py
+kind: guided_public_api
+public_api: true

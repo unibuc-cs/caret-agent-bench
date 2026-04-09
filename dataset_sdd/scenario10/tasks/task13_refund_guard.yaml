@@ -1,0 +1,11 @@
+﻿id: task13_refund_guard
+title: "Hard refund permission guard"
+issue: "Gate refunds by actor role: support/admin allowed, guest denied."
+required_reads:
+- app/permissions.py
+- app/billing.py
+must_modify:
+- app/billing.py
+- app/tests.py
+kind: refund_guard
+public_api: false

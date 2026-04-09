@@ -1,0 +1,12 @@
+﻿id: task07_discount_service_only
+title: "Hard service-layer discount"
+issue: "Apply discount logic in billing service layer only."
+required_reads:
+- app/config.py
+- app/discounts.py
+- app/permissions.py
+must_modify:
+- app/billing.py
+- app/tests.py
+kind: discount_service
+public_api: false

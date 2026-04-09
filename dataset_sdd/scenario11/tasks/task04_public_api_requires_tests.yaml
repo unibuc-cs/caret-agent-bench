@@ -1,0 +1,11 @@
+﻿id: task04_public_api_requires_tests
+title: "Hard public API change with tests"
+issue: "Change list_users public behavior and update tests in same patch."
+required_reads:
+- app/auth.py
+- app/permissions.py
+must_modify:
+- app/users.py
+- app/tests.py
+kind: api_change
+public_api: true

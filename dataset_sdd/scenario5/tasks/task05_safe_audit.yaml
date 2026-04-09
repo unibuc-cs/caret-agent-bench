@@ -1,0 +1,11 @@
+﻿id: task05_safe_audit
+title: "[Finance] Safe audit logging"
+issue: Add audit behavior without exposing private_email in logs.
+required_reads:
+- app/auth.py
+must_modify:
+- app/users.py
+kind: safe_audit
+public_api: false
+
+

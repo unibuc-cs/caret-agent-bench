@@ -1,0 +1,178 @@
+% Standalone LaTeX section for the paper.
+% This snippet is written to drop into the original manuscript after the
+% execution-model section, replacing the earlier evaluation-plan placeholder.
+
+\section{Evaluation}
+\label{sec:evaluation}
+
+This section reports empirical results for the Tiny SDD LLM benchmark after
+instantiating the Spec-Driven Development workflow described in
+Section~\ref{sec:exec}. The evaluation separates \emph{easy} and \emph{hard}
+scenario families because the benchmark now contains two qualitatively different
+task distributions: simpler, mostly single-hop repository edits where standard
+test-gated generation is already near ceiling, and harder multi-file tasks with
+cross-module dependencies and stricter governance requirements.
+
+\subsection{Experimental setup}
+
+The benchmark contains $12$ scenario packages under
+\texttt{dataset\_sdd/}. We group them as follows.
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Easy scenarios:} \texttt{scenario2--scenario9} and
+\texttt{scenario12}, for a total of $9$ scenarios and $108$ task runs per mode.
+These scenarios contain $12$ tasks each and represent relatively direct feature
+additions and bug fixes with limited cross-file coordination.
+\item \textbf{Hard scenarios:} \texttt{scenario1}, \texttt{scenario10}, and
+\texttt{scenario11}, for a total of $3$ scenarios and $45$ task runs per mode.
+These scenarios contain $15$ tasks each and introduce richer app structure,
+additional source files, stricter Architecture Cards, and more frequent
+cross-file constraints.
+\end{itemize}
+
+Each task was executed once per mode in the current reported runs
+($1$ trial per task). The evaluated modes are:
+\texttt{tests\_only}, \texttt{baseline}, and \texttt{full\_sdd} on all
+scenarios, plus \texttt{full\_sdd\_no\_operator} on the hard split as an
+ablation. The ablation keeps the SDD verifier active but disables the
+deterministic compliance operator that injects required reads, trace witnesses,
+and test touches before verification. This isolates whether the benefit comes
+from the gate alone or from the full governed repair loop.
+
+\paragraph{Metrics.}
+We report:
+\textit{success} (accepted runs / total runs),
+\textit{compliant success} (accepted runs with zero remaining policy violations),
+\textit{average policy violations},
+\textit{average rejections},
+\textit{average retries},
+\textit{unresolved rejections} (share of runs rejected at least once and still
+ending in failure), and
+\textit{agent error rate} (share of runs ending in upstream agent/runtime error).
+In this prototype, policy violations are lightweight post-run governance checks
+over the final candidate, including issues such as PII leakage, missing required
+reads before sensitive edits, missing test updates for public API changes, and
+other Architecture Card violations.
+
+\subsection{Results on easy scenarios}
+
+Table~\ref{tab:easy-results} shows that the easy split is close to ceiling for
+all ungated methods. Both \texttt{tests\_only} and \texttt{baseline} achieve
+$1.00$ functional success. Their compliance is also already high
+($0.98$ and $0.97$, respectively), which means these tasks do not strongly
+stress governance failures. Under this easier workload, \texttt{full\_sdd}
+slightly reduces functional success to $0.95$ and introduces modest repair-loop
+activity ($0.28$ average rejections, $0.23$ average retries). This behavior is
+consistent with a stricter gate operating in a low-headroom regime: when the
+task distribution is simple, there is less room for compliance gains and more
+chance that a conservative repair loop trades a small amount of throughput for
+assurance.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Mode} & \textbf{Success} & \textbf{Compliant} & \textbf{Avg.\ Viol.} & \textbf{Avg.\ Rej.} & \textbf{Avg.\ Retry} \\
+\midrule
+\texttt{tests\_only} & 1.00 & 0.98 & 0.02 & 0.00 & 0.00 \\
+\texttt{baseline} & 1.00 & 0.97 & 0.03 & 0.00 & 0.00 \\
+\texttt{full\_sdd} & 0.95 & 0.95 & 0.05 & 0.28 & 0.23 \\
+\bottomrule
+\end{tabular}
+\caption{Results on the easy split (\mbox{$9$ scenarios, $108$ task runs per mode}).}
+\label{tab:easy-results}
+\end{table}
+
+\subsection{Results on hard scenarios}
+
+The hard split is where SDD becomes materially useful. Table~\ref{tab:hard-results}
+shows a clear separation between functional success and compliant success for the
+non-SDD baselines. \texttt{baseline} reaches $0.93$ functional success, but only
+$0.58$ compliant success; in absolute terms, it accepts $42/45$ tasks, yet only
+$26/45$ are both accepted and governance-compliant. \texttt{tests\_only} is
+weaker still, with $40/45$ accepted but only $22/45$ compliant.
+
+By contrast, \texttt{full\_sdd} preserves the same functional success as
+\texttt{baseline} ($0.93$, or $42/45$ accepted) while raising compliant success
+to $0.93$ ($42/45$ compliant). Relative to \texttt{baseline}, this is a
+$35$-point improvement in compliant success and an $86\%$ reduction in average
+policy violations (from $0.47$ to $0.07$). The additional enforcement overhead
+is limited: \texttt{full\_sdd} averages only $0.22$ rejections and
+$0.16$ retries per run, with unresolved rejections in $0.07$ of runs.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Mode} & \textbf{Success} & \textbf{Compliant} & \textbf{Avg.\ Viol.} & \textbf{Avg.\ Rej.} & \textbf{Avg.\ Retry} \\
+\midrule
+\texttt{tests\_only} & 0.89 & 0.49 & 0.58 & 0.00 & 0.00 \\
+\texttt{baseline} & 0.93 & 0.58 & 0.47 & 0.00 & 0.24 \\
+\texttt{full\_sdd\_no\_operator} & 0.27 & 0.27 & 1.36 & 2.24 & 1.51 \\
+\texttt{full\_sdd} & 0.93 & 0.93 & 0.07 & 0.22 & 0.16 \\
+\bottomrule
+\end{tabular}
+\caption{Results on the hard split (\mbox{$3$ scenarios, $45$ task runs per mode}).}
+\label{tab:hard-results}
+\end{table}
+
+\subsection{Ablation: gate-only SDD is not enough}
+
+The hard-split ablation is the most informative result in the study.
+\texttt{full\_sdd\_no\_operator} performs poorly on every major metric:
+$0.27$ success, $1.36$ average policy violations, $2.24$ average rejections,
+and $0.73$ unresolved rejections. In absolute terms, only $12/45$ hard tasks
+are both accepted and compliant. This result is important because it shows that
+the value of SDD does not come from a strict gate alone. A gate without
+operator-assisted repair is too brittle: it rejects unsafe proposals, but often
+fails to steer the agent back toward an acceptable patch.
+
+The empirical implication is that SDD should be understood as a
+\emph{governed generation-and-repair workflow}, not merely as a post-hoc
+verification barrier. The Architecture Card, trace checks, and capability bounds
+need to be coupled with targeted repair guidance and deterministic compliance
+assists if the system is expected to remain usable on harder repository tasks.
+
+\subsection{Discussion}
+
+Taken together, the easy and hard splits suggest two different operating regimes.
+On easy tasks, repository edits are simple enough that standard test-gated
+generation already performs near ceiling, so SDD has limited room to improve
+compliance and may incur a small throughput penalty. On hard tasks, however,
+there is a substantial \emph{assurance gap}: many outputs that pass tests remain
+policy-unsafe. In that regime, \texttt{full\_sdd} closes the gap without
+materially sacrificing task completion.
+
+This pattern is aligned with the motivating claim of the paper. The main value
+of SDD is not that it universally raises functional success on all tasks. Its
+value is that, when repository changes become multi-step and governance-sensitive,
+it can keep functional performance competitive while sharply improving the rate
+of accepted \emph{and compliant} outcomes.
+
+\subsection{Threats to validity}
+
+These results should be interpreted with several limitations in mind.
+First, the current reported runs use a single trial per task, so they do not yet
+support confidence intervals over model stochasticity. Second, the benchmark is
+synthetic and compact; while it captures cross-file dependencies and governance
+constraints, it does not match the scale or organizational complexity of a
+production Adobe repository. Third, the easy split was evaluated before the
+\texttt{full\_sdd\_no\_operator} ablation was introduced, so the ablation results
+currently apply only to the hard scenarios. Fourth, the \textit{policy violations}
+metric is a lightweight proxy for governance non-compliance rather than a formal
+proof obligation. These limitations do not invalidate the observed hard-split
+effect, but they do bound the strength of any external claims.
+
+\paragraph{Summary of findings.}
+The current prototype supports three concrete conclusions:
+\begin{enumerate}[leftmargin=*]
+\item On easy tasks, all methods are already near ceiling, and SDD introduces a
+small but measurable overhead.
+\item On hard tasks, \texttt{full\_sdd} matches the best functional baseline
+($0.93$ success) while substantially improving compliant success
+($0.93$ vs.\ $0.58$ for \texttt{baseline}).
+\item The operator-assisted repair loop is essential; gate-only SDD is too
+brittle to be practically competitive.
+\end{enumerate}

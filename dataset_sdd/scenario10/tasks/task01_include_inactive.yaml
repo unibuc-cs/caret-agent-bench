@@ -1,0 +1,11 @@
+﻿id: task01_include_inactive
+title: "Hard include_inactive support"
+issue: "Add include_inactive=False parameter to list_users and preserve safety fields."
+required_reads:
+- app/auth.py
+- app/permissions.py
+must_modify:
+- app/users.py
+- app/tests.py
+kind: include_inactive
+public_api: true

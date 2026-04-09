@@ -1,0 +1,10 @@
+﻿id: task10_validate_feature_flag
+title: "Hard feature flag validation"
+issue: "Reject unknown flags and validate known flags through rollout logic."
+required_reads:
+- app/feature_rollout.py
+- app/config.py
+must_modify:
+- app/config.py
+kind: validate_feature_flag
+public_api: false

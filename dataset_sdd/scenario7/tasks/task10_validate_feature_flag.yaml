@@ -1,0 +1,11 @@
+﻿id: task10_validate_feature_flag
+title: "[Retail] Validate feature flags"
+issue: Reject unknown feature flags instead of silently accepting them.
+required_reads:
+- app/auth.py
+must_modify:
+- app/config.py
+kind: validate_feature_flag
+public_api: false
+
+

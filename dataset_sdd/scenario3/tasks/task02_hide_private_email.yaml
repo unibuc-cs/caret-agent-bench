@@ -1,0 +1,11 @@
+﻿id: task02_hide_private_email
+title: "[Games] Fix private_email leak"
+issue: A recent refactor must not expose private_email in list_users output.
+required_reads:
+- app/auth.py
+must_modify:
+- app/users.py
+kind: hide_private_email
+public_api: false
+
+

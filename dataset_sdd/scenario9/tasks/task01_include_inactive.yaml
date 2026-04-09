@@ -1,0 +1,13 @@
+﻿id: task01_include_inactive
+title: "[Sports] Add include_inactive support"
+issue: Add an include_inactive=False parameter to list_users so that inactive users
+  can be included when requested. Preserve safe output fields.
+required_reads:
+- app/auth.py
+must_modify:
+- app/users.py
+- app/tests.py
+kind: include_inactive
+public_api: true
+
+

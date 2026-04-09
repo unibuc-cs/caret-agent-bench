@@ -1,0 +1,12 @@
+﻿id: task07_discount_service_only
+title: "[Sports] Service-layer discount"
+issue: Add a discount parameter to billing.calculate_total in the service layer only.
+required_reads:
+- app/auth.py
+must_modify:
+- app/billing.py
+- app/tests.py
+kind: discount_service
+public_api: false
+
+

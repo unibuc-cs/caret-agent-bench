@@ -1,0 +1,12 @@
+﻿id: task12_guided_public_api
+title: "[Travel] Guided public API change"
+issue: Extend list_users with include_inactive support, but the public behavior change must be accompanied by a test update in the same patch.
+required_reads:
+- app/auth.py
+must_modify:
+- app/users.py
+- app/tests.py
+kind: guided_public_api
+public_api: true
+
+

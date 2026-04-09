@@ -1,0 +1,12 @@
+﻿id: task14_masked_audit
+title: "Hard masked audit output"
+issue: "Ensure audit output uses masked email representation in sensitive logs."
+required_reads:
+- app/audit.py
+- app/masking.py
+must_modify:
+- app/users.py
+- app/audit.py
+- app/tests.py
+kind: masked_audit
+public_api: false

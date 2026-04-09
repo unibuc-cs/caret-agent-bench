@@ -1,0 +1,12 @@
+﻿id: task15_rollout_guard
+title: "Hard rollout guard"
+issue: "Allow beta rollout only for beta/internal tiers; deny free tier."
+required_reads:
+- app/feature_rollout.py
+- app/validators.py
+must_modify:
+- app/feature_rollout.py
+- app/config.py
+- app/tests.py
+kind: rollout_guard
+public_api: false

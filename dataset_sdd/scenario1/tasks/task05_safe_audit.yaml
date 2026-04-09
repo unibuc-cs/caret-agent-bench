@@ -1,0 +1,10 @@
+﻿id: task05_safe_audit
+title: "Hard safe audit logging"
+issue: "Keep audit behavior while avoiding private_email leakage."
+required_reads:
+- app/audit.py
+- app/masking.py
+must_modify:
+- app/users.py
+kind: safe_audit
+public_api: false

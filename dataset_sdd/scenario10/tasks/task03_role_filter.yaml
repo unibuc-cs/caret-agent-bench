@@ -1,0 +1,11 @@
+﻿id: task03_role_filter
+title: "Hard role filter with permission matrix"
+issue: "Add optional role filter to list_users while preserving include_inactive behavior."
+required_reads:
+- app/auth.py
+- app/permissions.py
+must_modify:
+- app/users.py
+- app/tests.py
+kind: role_filter
+public_api: true

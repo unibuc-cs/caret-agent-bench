@@ -1,0 +1,11 @@
+﻿id: task08_no_negative_total
+title: "[Sports] Clamp negative totals"
+issue: Prevent billing.calculate_total from returning negative invoice totals.
+required_reads:
+- app/auth.py
+must_modify:
+- app/billing.py
+kind: no_negative_total
+public_api: false
+
+

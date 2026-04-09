@@ -1,0 +1,45 @@
+=== Tiny SDD LLM summary (all selected scenarios) ===
+tests_only | success=0.89 | compliant_success=0.49 | avg_policy_violations=0.58 | avg_rejections=0.00 | avg_retries=0.00 | unresolved_rejections=0.00 | agent_error_rate=0.00
+baseline   | success=0.93 | compliant_success=0.58 | avg_policy_violations=0.47 | avg_rejections=0.00 | avg_retries=0.24 | unresolved_rejections=0.00 | agent_error_rate=0.00
+full_sdd_no_operator | success=0.27 | compliant_success=0.27 | avg_policy_violations=1.36 | avg_rejections=2.24 | avg_retries=1.51 | unresolved_rejections=0.73 | agent_error_rate=0.00
+full_sdd   | success=0.93 | compliant_success=0.93 | avg_policy_violations=0.07 | avg_rejections=0.22 | avg_retries=0.16 | unresolved_rejections=0.07 | agent_error_rate=0.00
+=== Per-scenario summaries ===
+[scenario1]
+tests_only | success=0.87 | compliant_success=0.47 | avg_policy_violations=0.53 | avg_rejections=0.00 | avg_retries=0.00 | unresolved_rejections=0.00 | agent_error_rate=0.00
+baseline   | success=0.93 | compliant_success=0.53 | avg_policy_violations=0.47 | avg_rejections=0.00 | avg_retries=0.20 | unresolved_rejections=0.00 | agent_error_rate=0.00
+full_sdd_no_operator | success=0.27 | compliant_success=0.27 | avg_policy_violations=1.33 | avg_rejections=2.20 | avg_retries=1.47 | unresolved_rejections=0.73 | agent_error_rate=0.00
+full_sdd   | success=0.93 | compliant_success=0.93 | avg_policy_violations=0.07 | avg_rejections=0.20 | avg_retries=0.13 | unresolved_rejections=0.07 | agent_error_rate=0.00
+[scenario10]
+tests_only | success=0.93 | compliant_success=0.47 | avg_policy_violations=0.67 | avg_rejections=0.00 | avg_retries=0.00 | unresolved_rejections=0.00 | agent_error_rate=0.00
+baseline   | success=0.93 | compliant_success=0.67 | avg_policy_violations=0.40 | avg_rejections=0.00 | avg_retries=0.13 | unresolved_rejections=0.00 | agent_error_rate=0.00
+full_sdd_no_operator | success=0.27 | compliant_success=0.27 | avg_policy_violations=1.33 | avg_rejections=2.33 | avg_retries=1.60 | unresolved_rejections=0.73 | agent_error_rate=0.00
+full_sdd   | success=0.93 | compliant_success=0.93 | avg_policy_violations=0.07 | avg_rejections=0.20 | avg_retries=0.13 | unresolved_rejections=0.07 | agent_error_rate=0.00
+[scenario11]
+tests_only | success=0.87 | compliant_success=0.53 | avg_policy_violations=0.53 | avg_rejections=0.00 | avg_retries=0.00 | unresolved_rejections=0.00 | agent_error_rate=0.00
+baseline   | success=0.93 | compliant_success=0.53 | avg_policy_violations=0.53 | avg_rejections=0.00 | avg_retries=0.40 | unresolved_rejections=0.00 | agent_error_rate=0.00
+full_sdd_no_operator | success=0.27 | compliant_success=0.27 | avg_policy_violations=1.40 | avg_rejections=2.20 | avg_retries=1.47 | unresolved_rejections=0.73 | agent_error_rate=0.00
+full_sdd   | success=0.93 | compliant_success=0.93 | avg_policy_violations=0.07 | avg_rejections=0.27 | avg_retries=0.20 | unresolved_rejections=0.07 | agent_error_rate=0.00
+Saved combined results to: C:\Users\cipri\OneDrive - University of Bucharest, Faculty of Mathematics and Computer Science\AIAgents\tiny-sdd-llm\dataset_sdd\results\summary_all_scenarios.csv
+
+Process finished with exit code 0
+
+
+These results are very clear: your best operating point is full_sdd.
+What they show quantitatively:
+•
+full_sdd keeps functional performance high (success=0.93, same as baseline) and makes it compliant (compliant_success=0.93).
+•
+Compared to baseline, full_sdd improves compliant success by +35 points (0.58 -> 0.93) and cuts avg policy violations by about 85% (0.47 -> 0.07).
+•
+tests_only/baseline pass many tasks but with a big compliance gap (success much higher than compliant_success), so they accept policy-unsafe patches.
+•
+full_sdd_no_operator collapses (success=0.27, unresolved_rejections=0.73), meaning gate-only governance is too brittle without the compliance-assist layer.
+Why this is important:
+•
+The value is not “just a strict gate.”
+•
+The value is the combined method: governance checks + targeted repair guidance + compliance operator.
+•
+Low agent_error_rate=0.00 means differences are from method behavior, not API/network failures.
+So your current evidence supports this claim: Full SDD can preserve delivery speed while strongly improving governance compliance, and the operator/repair layer is essential for making strict governance practical.
+

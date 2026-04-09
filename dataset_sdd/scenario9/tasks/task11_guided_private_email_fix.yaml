@@ -1,0 +1,11 @@
+﻿id: task11_guided_private_email_fix
+title: "[Sports] Guided private_email fix"
+issue: The admin contact summary helper currently leaks private_email. Fix it without removing the helper or changing auth semantics.
+required_reads:
+- app/auth.py
+must_modify:
+- app/users.py
+kind: guided_private_email_fix
+public_api: false
+
+

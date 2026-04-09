@@ -1,0 +1,10 @@
+﻿id: task11_guided_private_email_fix
+title: "Hard guided private_email fix"
+issue: "Fix admin contact summary to avoid private_email leakage."
+required_reads:
+- app/masking.py
+- app/users.py
+must_modify:
+- app/users.py
+kind: guided_private_email_fix
+public_api: false

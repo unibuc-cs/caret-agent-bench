@@ -1,0 +1,10 @@
+﻿id: task02_hide_private_email
+title: "Hard private_email redaction"
+issue: "Ensure private_email never appears in list_users output paths."
+required_reads:
+- app/auth.py
+- app/masking.py
+must_modify:
+- app/users.py
+kind: hide_private_email
+public_api: false

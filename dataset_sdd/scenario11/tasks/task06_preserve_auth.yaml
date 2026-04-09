@@ -1,0 +1,10 @@
+﻿id: task06_preserve_auth
+title: "Hard preserve auth checks"
+issue: "Modify behavior but keep auth semantics unchanged."
+required_reads:
+- app/auth.py
+- app/permissions.py
+must_modify:
+- app/users.py
+kind: preserve_auth
+public_api: false
